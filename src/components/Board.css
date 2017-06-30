@@ -1,0 +1,53 @@
+.board {
+	margin: auto;
+	width: 600px;
+	height: 600px;
+	
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.boardTile {
+	border: 1px solid #aaa;
+	border-radius: 10px;
+	
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	
+	width: 100px;
+	height: 100px;
+}
+
+.unitCount {
+	font-size: 1.7em;
+}
+
+.tileIcon {
+	position: absolute;
+}
+
+.tileIcon path, .tileIcon polygon {
+	stroke: rgba(0, 0, 0, .2);
+	fill: none;
+}
+
+.minorSpawn {
+	transform: scale(1.5);
+}
+
+.minorSpawn polygon {
+	stroke-width: 2.7px;
+}
+
+.majorSpawn {
+	transform: scale(1.8);
+}
+
+.majorSpawn path {
+	stroke-width: 2.2px;
+}
