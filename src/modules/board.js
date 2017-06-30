@@ -1,4 +1,4 @@
-import { times } from 'lodash/fp';
+import { times, flatten } from 'lodash/fp';
 import { actionTypes as gameActions } from '../game/gameActions';
 
 export const actionTypes = {
@@ -14,7 +14,8 @@ export const tileTypes = {
 
 const initialState = {
 	tiles: [],
-	players: []
+	players: [],
+	winner: null
 };
 
 const width = 5;
@@ -58,7 +59,8 @@ export default function(state = initialState, action) {
 		case actionTypes.CLEAR_BOARD:
 			return {
 				tiles: generateCleanBoard(action.players),
-				players: action.players
+				players: action.players,
+				winner: null,
 			};
 		case actionTypes.SPAWN:
 			return {
@@ -72,34 +74,45 @@ export default function(state = initialState, action) {
 			const fromTile = state.tiles[action.from.x][action.from.y];
 			const toTile = state.tiles[action.to.x][action.to.y];
 			
-			// Basic move (to empty, or tile that is already occupied by action.player)
-			return {
-				...state,
-				tiles: state.tiles.map((row, x) => row.map((tile, y) =>
-					(determineTilesMatch(tile, fromTile) && {
-						// Update the from tile
-						...fromTile,
-						unitCount: fromTile.unitCount - action.unitCount,
-						player: fromTile.unitCount === action.unitCount ? null : action.player
-					}) ||
-					(determineTilesMatch(tile, toTile) && (
+			// Execute the move
+			const newTiles = state.tiles.map((row, x) => row.map((tile, y) =>
+				(determineTilesMatch(tile, fromTile) && {
+					// Update the from tile
+					...fromTile,
+					unitCount: fromTile.unitCount - action.unitCount,
+					player: fromTile.unitCount === action.unitCount ? null : action.player
+				}) ||
+				(determineTilesMatch(tile, toTile) && (
 						(toTile.player === action.player || !toTile.player)
 							// Normal move
 							? {
-								// Update the to tile
-								...toTile,
-								unitCount: (toTile.unitCount || 0) + action.unitCount,
-								player: action.player
-							}
+							// Update the to tile
+							...toTile,
+							unitCount: (toTile.unitCount || 0) + action.unitCount,
+							player: action.player
+						}
 							// Fight
 							: {
-								...toTile,
-								unitCount: Math.max(Math.abs(action.unitCount - toTile.unitCount), 1),
-								player: action.unitCount > toTile.unitCount ? action.player : toTile.player
-							})
-					) ||
-					tile
-				))
+							...toTile,
+							unitCount: Math.max(Math.abs(action.unitCount - toTile.unitCount), 1),
+							player: action.unitCount > toTile.unitCount ? action.player : toTile.player
+						})
+				) ||
+				tile
+			));
+			
+			// Determine if somebody has won
+			const livePlayers = state.players.filter(player =>
+				flatten(newTiles).some(tile => tile.player === player)
+			);
+			
+			const winner = livePlayers.length === 1 ? livePlayers[0] : null;
+			
+			// Basic move (to empty, or tile that is already occupied by action.player)
+			return {
+				...state,
+				tiles: newTiles,
+				winner
 			}
 	}
 	return state;

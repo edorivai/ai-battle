@@ -6,23 +6,34 @@ export default function startLoop(store, players) {
 	
 	
 	let currentPlayerIndex = 0;
-	const intervalId = setInterval(() => {
+	let timerId;
+	function run() {
 		const board = store.getState().board;
-		
+
 		// Spawn units
 		store.dispatch(spawn());
-		
+
 		const player = players[currentPlayerIndex];
 		const move = player.play(board);
+
+		const validation = validate(board, player, move);
+		if (!validation.valid) {
+			console.error(validation.message);
+			clearTimeout(timerId);
+			return;
+		}
+
+		store.dispatch(move);
 		
-		try {
-			validate(board, player, move);
-			store.dispatch(move);
-			currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-		} catch (error) {
-			console.error(error);
-			clearInterval(intervalId);
+		const winner = store.getState().board.winner;
+		if (winner) {
+			// Exit the loop if there is a winner
+			return;
 		}
 		
-	}, 300);
+		currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		
+		timerId = setTimeout(run, 30);
+	}
+	run();
 }
