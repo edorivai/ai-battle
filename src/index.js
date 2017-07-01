@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './modules/reducer';
 import RandomPlayer from './players/randomPlayer';
+import HumanPlayer from './players/humanPlayer';
 import startLoop from './game/loop';
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -18,7 +19,7 @@ const colors = [
 
 const players = [
 	new RandomPlayer(colors[0]),
-	new RandomPlayer(colors[1]),
+	new HumanPlayer(colors[1], store),
 ];
 
 render(

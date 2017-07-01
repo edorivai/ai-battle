@@ -12,5 +12,5 @@ export default function RandomPlayer(color) {
 RandomPlayer.prototype.play = function play(board) {
 	const source = sample(getAllTilesForPlayer(board, this));
 	const target = sample(getAdjacentTiles(board, source));
-	return move(this, source, target, Math.ceil(source.unitCount * Math.random()));
+	return [move(this, source, target, Math.ceil(source.unitCount * Math.random()))];
 };

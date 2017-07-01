@@ -15,7 +15,7 @@ export const tileTypes = {
 const initialState = {
 	tiles: [],
 	players: [],
-	winner: null
+	winner: null,
 };
 
 const width = 5;
@@ -41,21 +41,25 @@ const playerSpawns = {
 };
 
 function generateCleanBoard(players) {
-	return times(x => times(y => {
-		const coords = `${x},${y}`;
-		const player = players[playerSpawns[coords]] || null;
-		return {
-			x,
-			y,
-			type  : spawns[coords] || tileTypes.NEUTRAL,
-			player,
-			unitCount: player ? 5 : 0
-		};
-	}, height), width);
+	return times(
+		x =>
+			times(y => {
+				const coords = `${x},${y}`;
+				const player = players[playerSpawns[coords]] || null;
+				return {
+					x,
+					y,
+					type: spawns[coords] || tileTypes.NEUTRAL,
+					player,
+					unitCount: player ? 5 : 0,
+				};
+			}, height),
+		width
+	);
 }
 
 export default function(state = initialState, action) {
-	switch(action.type) {
+	switch (action.type) {
 		case actionTypes.CLEAR_BOARD:
 			return {
 				tiles: generateCleanBoard(action.players),
@@ -65,55 +69,56 @@ export default function(state = initialState, action) {
 		case actionTypes.SPAWN:
 			return {
 				...state,
-				tiles: state.tiles.map(row => row.map(tile => ({
-					...tile,
-					unitCount: tile.unitCount && tile.unitCount + spawnSpeeds[tile.type]
-				})))
+				tiles: state.tiles.map(row =>
+					row.map(tile => ({
+						...tile,
+						unitCount: tile.unitCount && tile.unitCount + spawnSpeeds[tile.type],
+					}))
+				),
 			};
 		case gameActions.MOVE:
 			const fromTile = state.tiles[action.from.x][action.from.y];
 			const toTile = state.tiles[action.to.x][action.to.y];
-			
+
 			// Execute the move
-			const newTiles = state.tiles.map((row, x) => row.map((tile, y) =>
-				(determineTilesMatch(tile, fromTile) && {
-					// Update the from tile
-					...fromTile,
-					unitCount: fromTile.unitCount - action.unitCount,
-					player: fromTile.unitCount === action.unitCount ? null : action.player
-				}) ||
-				(determineTilesMatch(tile, toTile) && (
-						(toTile.player === action.player || !toTile.player)
-							// Normal move
-							? {
-							// Update the to tile
-							...toTile,
-							unitCount: (toTile.unitCount || 0) + action.unitCount,
-							player: action.player
-						}
-							// Fight
-							: {
-							...toTile,
-							unitCount: Math.max(Math.abs(action.unitCount - toTile.unitCount), 1),
-							player: action.unitCount > toTile.unitCount ? action.player : toTile.player
-						})
-				) ||
-				tile
-			));
-			
-			// Determine if somebody has won
-			const livePlayers = state.players.filter(player =>
-				flatten(newTiles).some(tile => tile.player === player)
+			const newTiles = state.tiles.map((row, x) =>
+				row.map(
+					(tile, y) =>
+						(determineTilesMatch(tile, fromTile) && {
+							// Update the from tile
+							...fromTile,
+							unitCount: fromTile.unitCount - action.unitCount,
+							player: fromTile.unitCount === action.unitCount ? null : action.player,
+						}) ||
+						(determineTilesMatch(tile, toTile) &&
+							(toTile.player === action.player || !toTile.player
+								? // Normal move
+									{
+										...toTile,
+										unitCount: (toTile.unitCount || 0) + action.unitCount,
+										player: action.player,
+									}
+								: // Fight
+									{
+										...toTile,
+										unitCount: Math.max(Math.abs(action.unitCount - toTile.unitCount), 1),
+										player: action.unitCount > toTile.unitCount ? action.player : toTile.player,
+									})) ||
+						tile
+				)
 			);
-			
+
+			// Determine if somebody has won
+			const livePlayers = state.players.filter(player => flatten(newTiles).some(tile => tile.player === player));
+
 			const winner = livePlayers.length === 1 ? livePlayers[0] : null;
-			
+
 			// Basic move (to empty, or tile that is already occupied by action.player)
 			return {
 				...state,
 				tiles: newTiles,
-				winner
-			}
+				winner,
+			};
 	}
 	return state;
 }
@@ -129,6 +134,6 @@ export function spawn() {
 export function startGame(players) {
 	return {
 		type: actionTypes.CLEAR_BOARD,
-		players
+		players,
 	};
 }

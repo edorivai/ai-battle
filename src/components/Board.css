@@ -4,7 +4,7 @@
 	height: 600px;
 	
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
@@ -21,6 +21,32 @@
 	
 	width: 100px;
 	height: 100px;
+}
+
+.moveButton {
+	display: none;
+	cursor: pointer;
+	
+	width: 0;
+	height: 0;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-bottom: 32px solid rgba(0, 0, 0, .6);
+	
+	margin-left: -20px;
+	margin-top: -16px;
+	
+	position: absolute;
+	background: none;
+}
+
+.boardTile:hover .moveButton {
+	display: block;
+}
+
+.moveButton.chosen {
+	display: block;
+	border-bottom-color: rgba(0, 0, 0, .8);
 }
 
 .unitCount {

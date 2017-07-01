@@ -4,26 +4,25 @@ import validate from './validator';
 export default function startLoop(store, players) {
 	store.dispatch(startGame(players));
 	
-	
 	let currentPlayerIndex = 0;
-	let timerId;
-	function run() {
+	async function run() {
 		const board = store.getState().board;
 
 		// Spawn units
 		store.dispatch(spawn());
 
 		const player = players[currentPlayerIndex];
-		const move = player.play(board);
-
-		const validation = validate(board, player, move);
-		if (!validation.valid) {
-			console.error(validation.message);
-			clearTimeout(timerId);
+		const moves = await player.play(board);
+		
+		const validations = moves.map(move => validate(board, player, move));
+		if (validations.some(validation => !validation.valid)) {
+			validations
+				.filter(validation => !validation.valid)
+				.forEach(validation => console.error(validation.message));
 			return;
 		}
 
-		store.dispatch(move);
+		moves.forEach(move =>	store.dispatch(move));
 		
 		const winner = store.getState().board.winner;
 		if (winner) {
@@ -33,7 +32,7 @@ export default function startLoop(store, players) {
 		
 		currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 		
-		timerId = setTimeout(run, 30);
+		setTimeout(run, 30);
 	}
 	run();
 }
