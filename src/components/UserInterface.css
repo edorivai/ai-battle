@@ -2,3 +2,25 @@
 	display: block;
 	margin: 20px auto;
 }
+
+.colorBox {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	margin: 10px;
+}
+
+.errorBox {
+	box-sizing: border-box;
+	width: 600px;
+	margin: 10px auto 20px;
+	
+	padding: 0 20px;
+	background-color: #FFBDB3;
+	border: 2px solid #E46C6E;
+	text-align: left;
+}
+
+.errorBox h3, .errorBox h4 {
+	font-weight: normal;
+}

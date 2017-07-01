@@ -17,8 +17,6 @@ export const tileTypes = {
 const width = 5;
 const height = 5;
 
-
-
 const spawns = {
 	'0,0': tileTypes.MINOR_SPAWN,
 	'0,4': tileTypes.MINOR_SPAWN,
@@ -54,7 +52,7 @@ function generateCleanBoard(players) {
 					y,
 					type: spawns[coords] || tileTypes.NEUTRAL,
 					player,
-					unitCount: player ? 5 : 0,
+					unitCount: player ? 1 : 0,
 				};
 			}, height),
 		width
@@ -74,6 +72,11 @@ export default function(state = initialState, action) {
 				tiles: generateCleanBoard(action.players),
 				players: action.players,
 				winner: null,
+			};
+		case sessionActions.REPORT_ERROR:
+			return {
+				...state,
+				winner: state.players.filter(p => p !== action.player)[0],
 			};
 		case actionTypes.SPAWN:
 			return {

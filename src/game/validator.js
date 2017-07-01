@@ -6,7 +6,8 @@ export default function determineValidMove(board, player, move) {
 	if (fromTile.player !== player) {
 		return {
 			valid: false,
-			message: `It seems that player "${player.name}" doesn\'t occupy tile ${fromCoords}`
+			message: `It seems that player "${player.name}" doesn\'t occupy tile ${fromCoords}`,
+			move,
 		}
 	}
 	
@@ -14,7 +15,8 @@ export default function determineValidMove(board, player, move) {
 	if (move.unitCount <= 0) {
 		return {
 			valid: false,
-			message: 'You should move at least 1 unit'
+			message: 'You should move at least 1 unit',
+			move,
 		}
 	}
 	
@@ -22,7 +24,8 @@ export default function determineValidMove(board, player, move) {
 	if (Math.abs(move.from.x - move.to.x) > 1 || Math.abs(move.from.y - move.to.y) > 1) {
 		return {
 			valid: false,
-			message: `You can only move 1 tile at a time`
+			message: `You can only move to adjacent tiles`,
+			move,
 		};
 	}
 	
@@ -30,7 +33,8 @@ export default function determineValidMove(board, player, move) {
 	if (fromTile.unitCount < move.unitCount) {
 		return {
 			valid: false,
-			message: `Cannot move ${move.unitCount} units from ${fromCoords}, since you only have ${fromTile.unitCount} units available there`
+			message: `Cannot move ${move.unitCount} units from ${fromCoords}, since you only have ${fromTile.unitCount} units available there`,
+			move,
 		}
 	}
 	

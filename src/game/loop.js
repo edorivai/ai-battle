@@ -1,5 +1,5 @@
 import { spawn } from '../modules/board';
-import { stopSession } from '../modules/session';
+import { stopSession, reportError } from '../modules/session';
 import validate from './validator';
 
 export default function startLoop(getState, players, dispatch) {
@@ -20,7 +20,7 @@ export default function startLoop(getState, players, dispatch) {
 		if (validations.some(validation => !validation.valid)) {
 			validations
 				.filter(validation => !validation.valid)
-				.forEach(validation => console.error(validation.message));
+				.forEach(validation => dispatch(reportError(validation.message, player, validation.move)));
 			return;
 		}
 
