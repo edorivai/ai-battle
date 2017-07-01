@@ -14,24 +14,28 @@ const colors = ['#ab5a5c', '#4060cf'];
 class UserInterface extends Component {
 	state = {
 		player1: 0,
-		player2: 0,
+		player2: 2,
+		speed: 50,
 	};
 	setPlayer1 = ({ target: { value: playerIndex } }) => this.setState({ player1: parseInt(playerIndex, 10) });
 	setPlayer2 = ({ target: { value: playerIndex } }) => this.setState({ player2: parseInt(playerIndex, 10) });
+	setSpeed = ({ target: { value: speed }}) => this.setState({ speed });
 
-	getBoard = () => {
-		console.log('getting board', this.props.board);
-		return this.props.board;
+	getState = () => {
+		return {
+			board: this.props.board,
+			speed: this.state.speed
+		};
 	};
 
 	startSession = () => {
 		const { startSession, dispatch } = this.props;
-		startSession(this.getBoard, [new players[this.state.player1](colors[0]), new players[this.state.player2](colors[1])], dispatch);
+		startSession(this.getState, [new players[this.state.player1](colors[0]), new players[this.state.player2](colors[1])], dispatch);
 	};
 
 	render() {
 		const { humanMoves: { player }, humanPlayerActive, confirm, winner, running } = this.props;
-		const { player1, player2 } = this.state;
+		const { player1, player2, speed } = this.state;
 		return (
 			<div className="userInterface">
 
@@ -48,6 +52,10 @@ class UserInterface extends Component {
 					{running
 						? <button className="startStopButton">STOP</button>
 						: <button className="startStopButton" onClick={this.startSession}>START</button>}
+					
+					Speed:
+					<br />
+					<input className='speedSlider' type='range' min='0' max='100' value={speed} onChange={this.setSpeed} />
 
 				</div>
 

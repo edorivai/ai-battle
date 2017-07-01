@@ -22,8 +22,8 @@ export default function(state = initialState, action) {
 	}
 }
 
-export function startSession(getBoard, players, dispatch) {
-	const stopLoop = startLoop(getBoard, players, dispatch);
+export function startSession(getState, players, dispatch) {
+	const stopLoop = startLoop(getState, players, dispatch);
 	return { type: actionTypes.START_SESSION, players, stopLoop };
 }
 export function stopSession() {

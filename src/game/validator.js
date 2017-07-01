@@ -14,7 +14,7 @@ export default function determineValidMove(board, player, move) {
 	if (move.unitCount <= 0) {
 		return {
 			valid: false,
-			message: 'You should at least 1 unit'
+			message: 'You should move at least 1 unit'
 		}
 	}
 	

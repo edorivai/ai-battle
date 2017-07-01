@@ -2,13 +2,13 @@ import { spawn } from '../modules/board';
 import { stopSession } from '../modules/session';
 import validate from './validator';
 
-export default function startLoop(getBoard, players, dispatch) {
+export default function startLoop(getState, players, dispatch) {
 	let stopped = false;
 	let currentPlayerIndex = 0;
 	async function run() {
 		if (stopped) return;
 		
-		const board = getBoard();
+		const board = getState().board;
 
 		// Spawn units
 		dispatch(spawn());
@@ -26,7 +26,7 @@ export default function startLoop(getBoard, players, dispatch) {
 
 		moves.forEach(move =>	dispatch(move));
 		
-		const winner = getBoard().winner;
+		const winner = getState().board.winner;
 		if (winner) {
 			// Exit the loop if there is a winner, and dispatch STOP SESSION
 			dispatch(stopSession());
@@ -35,7 +35,8 @@ export default function startLoop(getBoard, players, dispatch) {
 		
 		currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 		
-		setTimeout(run, 30);
+		const fps = 1 + (getState().speed / 3);
+		setTimeout(run, 1000 / fps);
 	}
 	setTimeout(run, 0);
 	

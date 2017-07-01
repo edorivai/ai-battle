@@ -1,7 +1,9 @@
 import RandomPlayer from './randomPlayer';
-import RandomPlayer2 from './randomPlayer2';
+import PassivePlayer from './passivePlayer';
+import TurtlePlayer from './turtlePlayer';
 
 export default [
 	RandomPlayer,
-	RandomPlayer2,
+	PassivePlayer,
+	TurtlePlayer,
 ];

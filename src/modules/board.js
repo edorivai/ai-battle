@@ -14,21 +14,17 @@ export const tileTypes = {
 	CAPTURE_POINT: 'CAPTURE_POINT',
 };
 
-const initialState = {
-	tiles: [],
-	players: [],
-	winner: null,
-};
-
 const width = 5;
 const height = 5;
+
+
 
 const spawns = {
 	'0,0': tileTypes.MINOR_SPAWN,
 	'0,4': tileTypes.MINOR_SPAWN,
 	'4,0': tileTypes.MINOR_SPAWN,
 	'4,4': tileTypes.MINOR_SPAWN,
-	'2,2': tileTypes.MAJOR_SPAWN,
+	// '2,2': tileTypes.MAJOR_SPAWN,
 	'2,1': tileTypes.CAPTURE_POINT,
 	'3,2': tileTypes.CAPTURE_POINT,
 	'1,2': tileTypes.CAPTURE_POINT,
@@ -52,7 +48,7 @@ function generateCleanBoard(players) {
 		x =>
 			times(y => {
 				const coords = `${x},${y}`;
-				const player = players[playerSpawns[coords]] || null;
+				const player = players && players[playerSpawns[coords]] || null;
 				return {
 					x,
 					y,
@@ -64,6 +60,12 @@ function generateCleanBoard(players) {
 		width
 	);
 }
+
+const initialState = {
+	tiles: generateCleanBoard(),
+	players: [],
+	winner: null,
+};
 
 export default function(state = initialState, action) {
 	switch (action.type) {
