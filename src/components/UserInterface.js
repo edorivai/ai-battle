@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { flatten, times } from 'lodash/fp';
 import HumanPlayer from '../players/humanPlayer';
-import players from '../players/players';
+import ais from '../players/players';
 
 import { confirm } from '../modules/humanMoves';
 import { startSession, stopSession } from '../modules/session';
 import './UserInterface.css';
 
 const colors = ['#ab5a5c', '#4060cf'];
+const players = [...ais, HumanPlayer];
 
 class UserInterface extends Component {
 	state = {
@@ -27,14 +28,16 @@ class UserInterface extends Component {
 			speed: this.state.speed,
 		};
 	};
-	
+
 	stopSession = () => this.props.stopSession();
 
 	startSession = () => {
 		const { startSession, dispatch } = this.props;
 		startSession(
 			this.getState,
-			[new players[this.state.player1](colors[0]), new players[this.state.player2](colors[1])],
+			[players[this.state.player1], players[this.state.player2]].map(
+				(PlayerConstructor, i) => new PlayerConstructor(colors[i])
+			),
 			dispatch
 		);
 	};

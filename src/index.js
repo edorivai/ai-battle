@@ -6,9 +6,11 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './modules/reducer';
-import HumanPlayer from './players/humanPlayer';
+import { setStore } from './players/humanPlayer';
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+setStore(store);
 
 render(
 	<Provider store={store}>
