@@ -1,5 +1,6 @@
 import { times, flatten } from 'lodash/fp';
 import { actionTypes as gameActions } from '../game/gameActions';
+import { actionTypes as sessionActions } from './session';
 
 export const actionTypes = {
 	CLEAR_BOARD: 'board/CLEAR_BOARD',
@@ -66,7 +67,7 @@ function generateCleanBoard(players) {
 
 export default function(state = initialState, action) {
 	switch (action.type) {
-		case actionTypes.CLEAR_BOARD:
+		case sessionActions.START_SESSION:
 			return {
 				tiles: generateCleanBoard(action.players),
 				players: action.players,
@@ -150,11 +151,4 @@ function determineTilesMatch(a, b) {
 
 export function spawn() {
 	return { type: actionTypes.SPAWN };
-}
-
-export function startGame(players) {
-	return {
-		type: actionTypes.CLEAR_BOARD,
-		players,
-	};
 }

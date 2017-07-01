@@ -3,11 +3,11 @@ import { sample } from 'lodash';
 import { getAllTilesForPlayer, getAdjacentTiles } from '../game/boardUtilities';
 import { move } from '../game/gameActions';
 
-export default class RandomPlayer {
-	static getName() { return 'Random' };
+export default class RandomPlayer2 {
+	static getName() { return 'Random2' };
 	
 	constructor(color) {
-		this.name = RandomPlayer.getName();
+		this.name = RandomPlayer2.getName();
 		this.color = color;
 	}
 	
