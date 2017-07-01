@@ -1,10 +1,12 @@
 import { flatten } from 'lodash';
 
+import { spawnTileTypes } from '../modules/board';
+
 /**
- * Fetches all tiles that are occupied by the specified player
+ * Fetches all tiles that are occupied by an army of the specified player
  */
-export function getAllTilesForPlayer(board, player) {
-	return flatten(board.tiles).filter(tile => tile.player === player);
+export function getAllTilesWithArmyForPlayer(board, player) {
+	return flatten(board.tiles).filter(tile => tile.player === player && tile.unitCount > 0);
 }
 
 /**
@@ -23,6 +25,15 @@ export function getAdjacentTiles(board, tile) {
  */
 export function getTilesByType(board, type) {
 	return flatten(board.tiles).filter(tile => tile.type === type);
+}
+
+/**
+ * Fetches all spawn tiles currently occupied by the specified player
+ */
+export function getSpawnsForPlayer(board, player) {
+	return flatten(board.tiles)
+		.filter(tile => tile.player === player)
+		.filter(tile => spawnTileTypes.includes(tile.type));
 }
 
 /**

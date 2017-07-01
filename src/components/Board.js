@@ -33,18 +33,23 @@ function Board({ board: { tiles }, humanMoves, addMove, removeMove }) {
 
 class Tile extends Component {
 	render() {
-		const { x, y, type, player, unitCount, humanPlayer, addMove, removeMove, moves } = this.props;
+		const { x, y, type, player, unitCount, unitType, humanPlayer, addMove, removeMove, moves } = this.props;
 		return (
 			<div
 				className="boardTile"
 				style={{
-					background: player ? player.color : 'white',
+					background: player && (unitCount > 0 || type !== tileTypes.NEUTRAL) ? player.color : 'white',
 				}}
 			>
 				{tileTypeIcons[type]}
 				{unitCount > 0 &&
-					<div className="unitCount">
-						{unitCount}
+					<div className='unitDisplay'>
+						<div className='unitType'>
+							{unitType}
+						</div>
+						<div className='unitCount'>
+							{unitCount}
+						</div>
 					</div>}
 				{player &&
 					humanPlayer === player &&

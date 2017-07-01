@@ -1,5 +1,5 @@
 import { tileTypes } from '../modules/board';
-import { getAllTilesForPlayer, getTilesByType, moveTowards, getClosest } from '../game/boardUtilities';
+import { getAllTilesWithArmyForPlayer, getTilesByType, moveTowards, getClosest } from '../game/boardUtilities';
 import { move } from '../game/gameActions';
 
 export default class TurtlePlayer {
@@ -13,7 +13,7 @@ export default class TurtlePlayer {
 	}
 
 	play(board) {
-		const allTiles = getAllTilesForPlayer(board, this);
+		const allTiles = getAllTilesWithArmyForPlayer(board, this);
 
 		// Determine which armies we want to move
 		const moving = allTiles.filter(tile => {

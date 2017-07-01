@@ -7,13 +7,17 @@ export default function startLoop(getState, players, dispatch) {
 	let currentPlayerIndex = 0;
 	async function run() {
 		if (stopped) return;
+		const fps = 1 + getState().speed;
 		
-		const board = getState().board;
+		const player = players[currentPlayerIndex];
+		const productionAdjustments = player.adjustProduction(getState().board); 
 
 		// Spawn units
-		dispatch(spawn());
+		dispatch(spawn(player, productionAdjustments));
+		
+		await new Promise(res => setTimeout(res, 1000 / fps));
 
-		const player = players[currentPlayerIndex];
+		const board = getState().board;
 		const moves = await player.play(board);
 		
 		const validations = moves.map(move => validate(board, player, move));
@@ -35,7 +39,6 @@ export default function startLoop(getState, players, dispatch) {
 		
 		currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
 		
-		const fps = 1 + (getState().speed / 3);
 		setTimeout(run, 1000 / fps);
 	}
 	setTimeout(run, 0);

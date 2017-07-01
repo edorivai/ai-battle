@@ -14,10 +14,18 @@ export const tileTypes = {
 	CAPTURE_POINT: 'CAPTURE_POINT',
 };
 
+export const spawnTileTypes = [tileTypes.MINOR_SPAWN, tileTypes.MAJOR_SPAWN];
+
+export const unitTypes = {
+	TANK: 'TANK',
+	RIFLE: 'RIFLE',
+	ROCKET: 'ROCKET',
+};
+
 const width = 5;
 const height = 5;
 
-const spawns = {
+const specialTiles = {
 	'0,0': tileTypes.MINOR_SPAWN,
 	'0,4': tileTypes.MINOR_SPAWN,
 	'4,0': tileTypes.MINOR_SPAWN,
@@ -47,12 +55,20 @@ function generateCleanBoard(players) {
 			times(y => {
 				const coords = `${x},${y}`;
 				const player = players && players[playerSpawns[coords]] || null;
+				const type = specialTiles[coords] || tileTypes.NEUTRAL;
+				const unitType = playerSpawns[coords] === 0 ? unitTypes.RIFLE : unitTypes.TANK;
 				return {
 					x,
 					y,
-					type: spawns[coords] || tileTypes.NEUTRAL,
+					type,
+					unitProductionType: [tileTypes.MINOR_SPAWN, tileTypes.MAJOR_SPAWN].includes(type)
+						? unitType
+						// ? unitTypes.RIFLE
+						: undefined,
 					player,
 					unitCount: player ? 1 : 0,
+					unitType: player ? unitType : undefined,
+					// unitType: player ? unitTypes.RIFLE : undefined,
 				};
 			}, height),
 		width
@@ -82,10 +98,23 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				tiles: state.tiles.map(row =>
-					row.map(tile => ({
-						...tile,
-						unitCount: tile.unitCount && tile.unitCount + spawnSpeeds[tile.type],
-					}))
+					row.map(tile => {
+						// Check to see if the unit production has been adjusted
+						const adjustment = action.productionAdjustments.find(adjustment =>
+							adjustment.x === tile.x && adjustment.y === tile.y);
+						if (adjustment && adjustment.unitProductionType !== tile.unitProductionType && tile.unitCount > 0) {
+							throw new Error('You cannot change the production type of a tile that is occupied by a different unit type');
+						}
+						
+						return {
+							...tile,
+							unitProductionType: adjustment ? adjustment.unitProductionType : tile.unitProductionType,
+							unitType: adjustment ? adjustment.unitProductionType : tile.unitType,
+							unitCount: tile.player !== action.player
+								? tile.unitCount
+								: tile.unitCount + spawnSpeeds[tile.type],
+						};
+					})
 				),
 			};
 		case gameActions.MOVE:
@@ -100,7 +129,6 @@ export default function(state = initialState, action) {
 							// Update the from tile
 							...fromTile,
 							unitCount: fromTile.unitCount - action.unitCount,
-							player: fromTile.unitCount === action.unitCount ? null : action.player,
 						}) ||
 						(determineTilesMatch(tile, toTile) &&
 							(toTile.player === action.player || !toTile.player
@@ -108,13 +136,13 @@ export default function(state = initialState, action) {
 									{
 										...toTile,
 										unitCount: (toTile.unitCount || 0) + action.unitCount,
+										unitType: fromTile.unitType,
 										player: action.player,
 									}
 								: // Fight
 									{
 										...toTile,
-										unitCount: Math.max(Math.abs(action.unitCount - toTile.unitCount), 1),
-										player: action.unitCount > toTile.unitCount ? action.player : toTile.player,
+										...resolveFightForTile(action, fromTile, toTile),
 									})) ||
 						tile
 				)
@@ -137,7 +165,7 @@ export default function(state = initialState, action) {
 						.filter(capturePoint => capturePoint.player === player).length
 			);
 			const winnerByCapturePoints = capturePointCounts.reduce((winningPlayer, count, index) =>
-				count >= 3 ? state.players[index] : winningPlayer, null);
+				count >= 4 ? state.players[index] : winningPlayer, null);
 			if (winnerByCapturePoints) winner = winnerByCapturePoints;
 
 			// Basic move (to empty, or tile that is already occupied by action.player)
@@ -150,10 +178,77 @@ export default function(state = initialState, action) {
 	return state;
 }
 
+/**
+ * 
+ * @param action
+ * @param fromTile
+ * @param toTile
+ * @returns {Tile} the state of the defending tile after the fight
+ */
+function resolveFightForTile(action, fromTile, toTile) {
+	// Unit counts after the fight
+	const { attacker, defender } = resolveFight(
+		{ unitCount: action.unitCount, unitType: fromTile.unitType },
+		{ unitCount: toTile.unitCount, unitType: toTile.unitType },
+	);
+	
+	return attacker === 0
+		// Defender won
+		? {
+			unitCount: defender,
+		}
+		// Attacker won
+		: {
+			player: action.player,
+			unitCount: attacker,
+			unitType: fromTile.unitType,
+		};
+}
+
+const counterCoefficient = 1.25;
+/**
+ * This map shows the battle coefficients between unit types.
+ * - Rifle beats Rocket
+ * - Rocket beats Tank
+ * - Tank beats Rifle
+ */
+const coefficientMap = {
+	[unitTypes.RIFLE]: {
+		[unitTypes.RIFLE]: 1,
+		[unitTypes.ROCKET]: 1 / counterCoefficient,
+		[unitTypes.TANK]: counterCoefficient,
+	},
+	[unitTypes.ROCKET]: {
+		[unitTypes.RIFLE]: counterCoefficient,
+		[unitTypes.ROCKET]: 1,
+		[unitTypes.TANK]: 1 / counterCoefficient,
+	},
+	[unitTypes.TANK]: {
+		[unitTypes.RIFLE]: 1 / counterCoefficient,
+		[unitTypes.ROCKET]: counterCoefficient,
+		[unitTypes.TANK]: 1,
+	},
+};
+function resolveFight(attacker, defender) {
+	const attackerCoefficient = coefficientMap[attacker.unitType][defender.unitType];
+	const defenderCoefficient = coefficientMap[defender.unitType][attacker.unitType];
+	
+	const attackerIntercept = attacker.unitCount / attackerCoefficient;
+	const defenderIntercept = defender.unitCount / defenderCoefficient;
+	const intercept = Math.min(attackerIntercept, defenderIntercept);
+	
+	// Respond with remaining units for either side of the battle
+	// One of the two should be 0
+	return {
+		attacker: Math.ceil(attacker.unitCount - intercept * attackerCoefficient),
+		defender: Math.ceil(defender.unitCount - intercept * defenderCoefficient),
+	}
+}
+
 function determineTilesMatch(a, b) {
 	return a.x === b.x && a.y === b.y;
 }
 
-export function spawn() {
-	return { type: actionTypes.SPAWN };
+export function spawn(player, productionAdjustments) {
+	return { type: actionTypes.SPAWN, player, productionAdjustments };
 }

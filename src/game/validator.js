@@ -1,5 +1,6 @@
 export default function determineValidMove(board, player, move) {
 	const fromTile = board.tiles[move.from.x][move.from.y];
+	const toTile = board.tiles[move.to.x][move.to.y];
 	
 	const fromCoords = `(${move.from.x},${move.from.y})`;
 	// Check if tile is owned by the player that is moving
@@ -28,12 +29,21 @@ export default function determineValidMove(board, player, move) {
 			move,
 		};
 	}
-	
+
 	// Check if the from tile has enough units
 	if (fromTile.unitCount < move.unitCount) {
 		return {
 			valid: false,
 			message: `Cannot move ${move.unitCount} units from ${fromCoords}, since you only have ${fromTile.unitCount} units available there`,
+			move,
+		}
+	}
+
+	// Check if tiles are of the same type
+	if (fromTile.player === toTile.player && toTile.unitCount > 0 && toTile.unitType !== fromTile.unitType) {
+		return {
+			valid: false,
+			message: 'Cannot merge armies of unequal types',
 			move,
 		}
 	}
