@@ -62,11 +62,11 @@
 	fill: none;
 }
 
-.minorSpawn {
+.minorSpawn, .capturePoint {
 	transform: scale(1.5);
 }
 
-.minorSpawn polygon {
+.minorSpawn polygon, .capturePoint polygon {
 	stroke-width: 2.7px;
 }
 

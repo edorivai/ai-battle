@@ -19,7 +19,8 @@ const colors = [
 
 const players = [
 	new RandomPlayer(colors[0]),
-	new HumanPlayer(colors[1], store),
+	new RandomPlayer(colors[1]),
+	// new HumanPlayer(colors[1], store),
 ];
 
 render(

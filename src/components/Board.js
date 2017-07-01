@@ -114,6 +114,11 @@ const tileTypeIcons = {
 			<polygon points="30,5 55,50 5,50" />
 		</svg>
 	),
+	[tileTypes.CAPTURE_POINT]: (
+		<svg height="60" width="60" className="capturePoint tileIcon">
+			<polygon points="5,5 55,5 55,55 5,55 " />
+		</svg>
+	),
 	[tileTypes.MAJOR_SPAWN]: (
 		<svg width="50" height="50" className="majorSpawn tileIcon">
 			<path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />

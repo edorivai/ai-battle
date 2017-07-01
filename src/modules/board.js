@@ -10,6 +10,7 @@ export const tileTypes = {
 	NEUTRAL: 'NEUTRAL',
 	MINOR_SPAWN: 'MINOR_SPAWN',
 	MAJOR_SPAWN: 'MAJOR_SPAWN',
+	CAPTURE_POINT: 'CAPTURE_POINT',
 };
 
 const initialState = {
@@ -27,10 +28,15 @@ const spawns = {
 	'4,0': tileTypes.MINOR_SPAWN,
 	'4,4': tileTypes.MINOR_SPAWN,
 	'2,2': tileTypes.MAJOR_SPAWN,
+	'2,1': tileTypes.CAPTURE_POINT,
+	'3,2': tileTypes.CAPTURE_POINT,
+	'1,2': tileTypes.CAPTURE_POINT,
+	'2,3': tileTypes.CAPTURE_POINT,
 };
 
 const spawnSpeeds = {
 	[tileTypes.NEUTRAL]: 0,
+	[tileTypes.CAPTURE_POINT]: 0,
 	[tileTypes.MINOR_SPAWN]: 1,
 	[tileTypes.MAJOR_SPAWN]: 3,
 };
@@ -108,10 +114,25 @@ export default function(state = initialState, action) {
 				)
 			);
 
-			// Determine if somebody has won
-			const livePlayers = state.players.filter(player => flatten(newTiles).some(tile => tile.player === player));
+			// Determine if somebody has won...
+			let winner = null;
 
-			const winner = livePlayers.length === 1 ? livePlayers[0] : null;
+			// ...by elimination
+			const livePlayers = state.players.filter(player => flatten(newTiles).some(tile => tile.player === player));
+			if (livePlayers.length === 1) {
+				winner = livePlayers[0];
+			}
+
+			// ...by occupying three capture points
+			const capturePointCounts = state.players.map(
+				player =>
+					flatten(newTiles)
+						.filter(tile => tile.type === tileTypes.CAPTURE_POINT)
+						.filter(capturePoint => capturePoint.player === player).length
+			);
+			const winnerByCapturePoints = capturePointCounts.reduce((winningPlayer, count, index) =>
+				count >= 3 ? state.players[index] : winningPlayer, null);
+			if (winnerByCapturePoints) winner = winnerByCapturePoints;
 
 			// Basic move (to empty, or tile that is already occupied by action.player)
 			return {
