@@ -15,25 +15,25 @@ export default class ThiefPlayer {
 	adjustProduction(board) {
 		return [];
 		// Count our own units
-		const unitCounts = getAllTilesWithArmyForPlayer(board, this).reduce(
-			(counts, tile) => {
-				counts[tile.unitType] += tile.unitCount;
-				return counts;
-			},
-			{
-				[unitTypes.TANK]: 0,
-				[unitTypes.ROCKET]: 0,
-				[unitTypes.RIFLE]: 0,
-			}
-		);
-		
-		const lowestUnitCountType = Object.entries(unitCounts).reduce((lowest, candidate) =>
-			lowest[1] <= candidate[1] ? lowest : candidate
-		)[0];
-
-		return getSpawnsForPlayer(board, this)
-			.filter(tile => console.log('filtering', Math.random(), tile) || tile.unitCount === 0) // We're only allowed to switch unit type if the tile is empty
-			.map(tile => ({ ...tile, unitProductionType: lowestUnitCountType }));
+		// const unitCounts = getAllTilesWithArmyForPlayer(board, this).reduce(
+		// 	(counts, tile) => {
+		// 		counts[tile.unitType] += tile.unitCount;
+		// 		return counts;
+		// 	},
+		// 	{
+		// 		[unitTypes.TANK]: 0,
+		// 		[unitTypes.ROCKET]: 0,
+		// 		[unitTypes.RIFLE]: 0,
+		// 	}
+		// );
+		//
+		// const lowestUnitCountType = Object.entries(unitCounts).reduce((lowest, candidate) =>
+		// 	lowest[1] <= candidate[1] ? lowest : candidate
+		// )[0];
+		//
+		// return getSpawnsForPlayer(board, this)
+		// 	.filter(tile => console.log('filtering', Math.random(), tile) || tile.unitCount === 0) // We're only allowed to switch unit type if the tile is empty
+		// 	.map(tile => ({ ...tile, unitProductionType: lowestUnitCountType }));
 	}
 
 	play(board) {
@@ -43,7 +43,7 @@ export default class ThiefPlayer {
 		const moving = allTiles.filter(tile => {
 			if (tile.type === tileTypes.NEUTRAL) return true;
 			if (tile.type === tileTypes.CAPTURE_POINT) return tile.unitCount > 4;
-			if ([tileTypes.MINOR_SPAWN, tileTypes.MAJOR_SPAWN, tileTypes.CAPTURE_POINT].includes(tile.type))
+			if ([tileTypes.MINOR_SPAWN, tileTypes.MAJOR_SPAWN].includes(tile.type))
 				return tile.unitCount > 0;
 			return false;
 		});

@@ -14,7 +14,7 @@ const players = [...ais, HumanPlayer];
 
 class UserInterface extends Component {
 	state = {
-		player1: 0,
+		player1: 4,
 		player2: 3,
 		speed: 50,
 	};

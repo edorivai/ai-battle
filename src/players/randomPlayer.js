@@ -13,9 +13,10 @@ export default class RandomPlayer {
 	}
 
 	adjustProduction(board) {
-		return getSpawnsForPlayer(board, this)
-			.filter(tile => tile.unitCount === 0) // We're only allowed to switch unit type if the tile is empty
-			.map(tile => ({ ...tile, unitProductionType: sample(Object.values(unitTypes)) }));
+		return [];
+		// return getSpawnsForPlayer(board, this)
+		// 	.filter(tile => tile.unitCount === 0) // We're only allowed to switch unit type if the tile is empty
+		// 	.map(tile => ({ ...tile, unitProductionType: sample(Object.values(unitTypes)) }));
 	}
 	
 	play(board) {

@@ -12,6 +12,10 @@ export default class TurtlePlayer {
 		this.color = color;
 	}
 
+	adjustProduction(board) {
+		return [];
+	}
+
 	play(board) {
 		const allTiles = getAllTilesWithArmyForPlayer(board, this);
 

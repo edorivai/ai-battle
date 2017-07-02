@@ -9,7 +9,7 @@ import './Board.css';
 
 function Board({ board: { tiles }, humanMoves, addMove, removeMove }) {
 	const addMoveCreator = tile => (from, to) =>
-		addMove(from, to, tile.type === tileTypes.NEUTRAL ? tile.unitCount : tile.unitCount - 1);
+		addMove(from, to, tile.unitCount);
 
 	return (
 		<div className="board">
@@ -44,9 +44,9 @@ class Tile extends Component {
 				{tileTypeIcons[type]}
 				{unitCount > 0 &&
 					<div className='unitDisplay'>
-						<div className='unitType'>
-							{unitType}
-						</div>
+						{/*<div className='unitType'>*/}
+							{/*{unitType}*/}
+						{/*</div>*/}
 						<div className='unitCount'>
 							{unitCount}
 						</div>

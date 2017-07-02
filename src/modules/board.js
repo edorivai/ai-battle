@@ -25,7 +25,7 @@ export const unitTypes = {
 const width = 5;
 const height = 5;
 
-const specialTiles = {
+const map = {
 	'0,0': tileTypes.MINOR_SPAWN,
 	'0,4': tileTypes.MINOR_SPAWN,
 	'4,0': tileTypes.MINOR_SPAWN,
@@ -37,11 +37,25 @@ const specialTiles = {
 	'2,3': tileTypes.CAPTURE_POINT,
 };
 
+// const map = {
+// 	'0,0': tileTypes.MINOR_SPAWN,
+// 	'3,1': tileTypes.MINOR_SPAWN,
+// 	'1,3': tileTypes.MINOR_SPAWN,
+// 	'0,4': tileTypes.MAJOR_SPAWN,
+// 	'4,0': tileTypes.MAJOR_SPAWN,
+// 	'4,4': tileTypes.MINOR_SPAWN,
+// 	// '2,2': tileTypes.MAJOR_SPAWN,
+// 	'2,1': tileTypes.CAPTURE_POINT,
+// 	'3,2': tileTypes.CAPTURE_POINT,
+// 	'1,2': tileTypes.CAPTURE_POINT,
+// 	'2,3': tileTypes.CAPTURE_POINT,
+// };
+
 const spawnSpeeds = {
 	[tileTypes.NEUTRAL]: 0,
 	[tileTypes.CAPTURE_POINT]: 0,
 	[tileTypes.MINOR_SPAWN]: 1,
-	[tileTypes.MAJOR_SPAWN]: 3,
+	[tileTypes.MAJOR_SPAWN]: 2,
 };
 
 const playerSpawns = {
@@ -55,8 +69,9 @@ function generateCleanBoard(players) {
 			times(y => {
 				const coords = `${x},${y}`;
 				const player = players && players[playerSpawns[coords]] || null;
-				const type = specialTiles[coords] || tileTypes.NEUTRAL;
-				const unitType = playerSpawns[coords] === 0 ? unitTypes.RIFLE : unitTypes.TANK;
+				const type = map[coords] || tileTypes.NEUTRAL;
+				const unitType = unitTypes.RIFLE;
+				// const unitType = playerSpawns[coords] === 0 ? unitTypes.RIFLE : unitTypes.TANK;
 				return {
 					x,
 					y,
