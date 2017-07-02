@@ -1,6 +1,6 @@
 import { flatten } from 'lodash';
 
-import { spawnTileTypes } from '../modules/board';
+import { spawnTileTypes } from '../constants';
 
 /**
  * Fetches all tiles that are occupied by an army of the specified player

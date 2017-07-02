@@ -1,6 +1,6 @@
 import { flatten } from 'lodash/fp';
 
-import { tileTypes, spawnTileTypes } from '../modules/board';
+import { tileTypes, spawnTileTypes } from '../constants';
 import { getTilesByType, getAllTilesWithArmyForPlayer, getClosest, moveTowards } from '../game/boardUtilities';
 import { move } from '../game/gameActions';
 

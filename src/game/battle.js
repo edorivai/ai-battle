@@ -1,4 +1,4 @@
-import { unitTypes } from '../modules/board';
+import { unitTypes } from '../constants';
 
 const counterEfficiency = 1.25;
 const exponent = 1.5;
@@ -41,10 +41,10 @@ export function resolveBattle(attacker, defender) {
 	const n2 = calculateForcesRemainingSquared(N2, N1, 0, p2, p1);
 	
 	// Attacker won
-	if (n1 > 0) return { attacker: Math.pow(n1, 1 / exponent), defender: 0 };
+	if (n1 > 0) return { attacker: Math.round(Math.pow(n1, 1 / exponent)), defender: 0 };
 	
 	// Defender won
-	if (n2 > 0) return { attacker: 0, defender: Math.pow(n2, 1 / exponent) };
+	if (n2 > 0) return { attacker: 0, defender: Math.round(Math.pow(n2, 1 / exponent)) };
 	
 	// Tie, both forces wiped out
 	if (n1 === 0 && n2 === 0) return { attacker: 0, defender: 0 };

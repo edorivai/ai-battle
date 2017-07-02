@@ -1,6 +1,6 @@
 import { sample } from 'lodash';
 
-import { unitTypes } from '../modules/board';
+import { unitTypes } from '../constants';
 import { getAllTilesWithArmyForPlayer, getAdjacentTiles, getSpawnsForPlayer } from '../game/boardUtilities';
 import { move } from '../game/gameActions';
 

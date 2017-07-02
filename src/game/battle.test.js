@@ -1,7 +1,7 @@
 // import * as _ from 'lodash';
 
 import { resolveBattle } from './battle';
-import { unitTypes } from '../modules/board';
+import { unitTypes } from '../constants';
 
 describe('#resolveBattle', () => {
 	test('In case of same unit type, larger army always wins', async () => {

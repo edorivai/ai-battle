@@ -1,4 +1,4 @@
-import { tileTypes, unitTypes } from '../modules/board';
+import { tileTypes, unitTypes } from '../constants';
 import { getAllTilesWithArmyForPlayer, getTilesByType, moveTowards, getClosest, getSpawnsForPlayer } from '../game/boardUtilities';
 import { move } from '../game/gameActions';
 

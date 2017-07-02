@@ -1,25 +1,12 @@
 import { times, flatten } from 'lodash/fp';
 import { actionTypes as gameActions } from '../game/gameActions';
 import { actionTypes as sessionActions } from './session';
+import { resolveBattle } from '../game/battle';
+import { tileTypes, unitTypes, spawnTileTypes } from '../constants';
 
 export const actionTypes = {
 	CLEAR_BOARD: 'board/CLEAR_BOARD',
 	SPAWN: 'board/SPAWN',
-};
-
-export const tileTypes = {
-	NEUTRAL: 'NEUTRAL',
-	MINOR_SPAWN: 'MINOR_SPAWN',
-	MAJOR_SPAWN: 'MAJOR_SPAWN',
-	CAPTURE_POINT: 'CAPTURE_POINT',
-};
-
-export const spawnTileTypes = [tileTypes.MINOR_SPAWN, tileTypes.MAJOR_SPAWN];
-
-export const unitTypes = {
-	TANK: 'TANK',
-	RIFLE: 'RIFLE',
-	ROCKET: 'ROCKET',
 };
 
 const width = 5;
@@ -203,7 +190,7 @@ export default function(state = initialState, action) {
  */
 function resolveFightForTile(action, fromTile, toTile) {
 	// Unit counts after the fight
-	const { attacker, defender } = resolveFight(
+	const { attacker, defender } = resolveBattle(
 		{ unitCount: action.unitCount, unitType: fromTile.unitType },
 		{ unitCount: toTile.unitCount, unitType: toTile.unitType },
 	);
@@ -219,46 +206,6 @@ function resolveFightForTile(action, fromTile, toTile) {
 			unitCount: attacker,
 			unitType: fromTile.unitType,
 		};
-}
-
-const counterCoefficient = 1.25;
-/**
- * This map shows the battle coefficients between unit types.
- * - Rifle beats Rocket
- * - Rocket beats Tank
- * - Tank beats Rifle
- */
-const coefficientMap = {
-	[unitTypes.RIFLE]: {
-		[unitTypes.RIFLE]: 1,
-		[unitTypes.ROCKET]: 1 / counterCoefficient,
-		[unitTypes.TANK]: counterCoefficient,
-	},
-	[unitTypes.ROCKET]: {
-		[unitTypes.RIFLE]: counterCoefficient,
-		[unitTypes.ROCKET]: 1,
-		[unitTypes.TANK]: 1 / counterCoefficient,
-	},
-	[unitTypes.TANK]: {
-		[unitTypes.RIFLE]: 1 / counterCoefficient,
-		[unitTypes.ROCKET]: counterCoefficient,
-		[unitTypes.TANK]: 1,
-	},
-};
-function resolveFight(attacker, defender) {
-	const attackerCoefficient = coefficientMap[attacker.unitType][defender.unitType];
-	const defenderCoefficient = coefficientMap[defender.unitType][attacker.unitType];
-	
-	const attackerIntercept = attacker.unitCount / attackerCoefficient;
-	const defenderIntercept = defender.unitCount / defenderCoefficient;
-	const intercept = Math.min(attackerIntercept, defenderIntercept);
-	
-	// Respond with remaining units for either side of the battle
-	// One of the two should be 0
-	return {
-		attacker: Math.ceil(attacker.unitCount - intercept * attackerCoefficient),
-		defender: Math.ceil(defender.unitCount - intercept * defenderCoefficient),
-	}
 }
 
 function determineTilesMatch(a, b) {

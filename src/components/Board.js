@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { flatten, times } from 'lodash/fp';
 
-import { tileTypes } from '../modules/board';
+import { tileTypes } from '../constants';
 import { addMove, removeMove } from '../modules/humanMoves';
 
 import './Board.css';
