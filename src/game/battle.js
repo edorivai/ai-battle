@@ -37,17 +37,17 @@ export function resolveBattle(attacker, defender) {
 	const N1 = attacker.unitCount;
 	const N2 = defender.unitCount;
 	
-	const n1Squared = calculateForcesRemainingSquared(N1, N2, 0, p1, p2);
-	const n2Squared = calculateForcesRemainingSquared(N2, N1, 0, p2, p1);
+	const n1 = calculateForcesRemainingSquared(N1, N2, 0, p1, p2);
+	const n2 = calculateForcesRemainingSquared(N2, N1, 0, p2, p1);
 	
 	// Attacker won
-	if (n1Squared > 0) return { attacker: Math.sqrt(n1Squared), defender: 0 };
+	if (n1 > 0) return { attacker: Math.pow(n1, 1 / exponent), defender: 0 };
 	
 	// Defender won
-	if (n2Squared > 0) return { attacker: 0, defender: Math.sqrt(n2Squared) };
+	if (n2 > 0) return { attacker: 0, defender: Math.pow(n2, 1 / exponent) };
 	
 	// Tie, both forces wiped out
-	if (n1Squared === 0 && n2Squared === 0) return { attacker: 0, defender: 0 };
+	if (n1 === 0 && n2 === 0) return { attacker: 0, defender: 0 };
 	
 	// We should never get here.
 	throw new Error('Unexpected battle outcome, there must be an error in the math or coefficients');
