@@ -25,24 +25,10 @@ export const unitTypes = {
 const width = 5;
 const height = 5;
 
-const map = {
-	'0,0': tileTypes.MINOR_SPAWN,
-	'0,4': tileTypes.MINOR_SPAWN,
-	'4,0': tileTypes.MINOR_SPAWN,
-	'4,4': tileTypes.MINOR_SPAWN,
-	// '2,2': tileTypes.MAJOR_SPAWN,
-	'2,1': tileTypes.CAPTURE_POINT,
-	'3,2': tileTypes.CAPTURE_POINT,
-	'1,2': tileTypes.CAPTURE_POINT,
-	'2,3': tileTypes.CAPTURE_POINT,
-};
-
 // const map = {
 // 	'0,0': tileTypes.MINOR_SPAWN,
-// 	'3,1': tileTypes.MINOR_SPAWN,
-// 	'1,3': tileTypes.MINOR_SPAWN,
-// 	'0,4': tileTypes.MAJOR_SPAWN,
-// 	'4,0': tileTypes.MAJOR_SPAWN,
+// 	'0,4': tileTypes.MINOR_SPAWN,
+// 	'4,0': tileTypes.MINOR_SPAWN,
 // 	'4,4': tileTypes.MINOR_SPAWN,
 // 	// '2,2': tileTypes.MAJOR_SPAWN,
 // 	'2,1': tileTypes.CAPTURE_POINT,
@@ -50,6 +36,20 @@ const map = {
 // 	'1,2': tileTypes.CAPTURE_POINT,
 // 	'2,3': tileTypes.CAPTURE_POINT,
 // };
+
+const map = {
+	'0,0': tileTypes.MINOR_SPAWN,
+	'3,1': tileTypes.MINOR_SPAWN,
+	'1,3': tileTypes.MINOR_SPAWN,
+	'0,4': tileTypes.MAJOR_SPAWN,
+	'4,0': tileTypes.MAJOR_SPAWN,
+	'4,4': tileTypes.MINOR_SPAWN,
+	// '2,2': tileTypes.MAJOR_SPAWN,
+	'2,1': tileTypes.CAPTURE_POINT,
+	'3,2': tileTypes.CAPTURE_POINT,
+	'1,2': tileTypes.CAPTURE_POINT,
+	'2,3': tileTypes.CAPTURE_POINT,
+};
 
 const spawnSpeeds = {
 	[tileTypes.NEUTRAL]: 0,
@@ -167,7 +167,8 @@ export default function(state = initialState, action) {
 			let winner = null;
 
 			// ...by elimination
-			const livePlayers = state.players.filter(player => flatten(newTiles).some(tile => tile.player === player));
+			const livePlayers = state.players.filter(player => flatten(newTiles).some(
+				tile => tile.player === player && tile.unitCount > 0));
 			if (livePlayers.length === 1) {
 				winner = livePlayers[0];
 			}
