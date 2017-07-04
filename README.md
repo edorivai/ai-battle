@@ -142,7 +142,7 @@ The picture that _Game_ passes in this setting is the `board` parameter that you
 
 Formally:
 
-```flow
+```js
 type Board = {
 	tiles: Array<Array<Tile>>,
 	players: [Player, Player],
