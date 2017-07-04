@@ -42,6 +42,9 @@ class Tile extends Component {
 				}}
 			>
 				{tileTypeIcons[type]}
+				<div className='coordinates'>
+					{x},{y}
+				</div>
 				{unitCount > 0 &&
 					<div className='unitDisplay'>
 						{/*<div className='unitType'>*/}

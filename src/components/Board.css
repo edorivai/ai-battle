@@ -45,6 +45,15 @@
 	display: block;
 }
 
+.boardTile .coordinates {
+	position: absolute;
+	font-family: monospace;
+	font-size: 12px;
+	
+	top: 2px;
+	left: 2px;
+}
+
 .moveButton.chosen {
 	display: block;
 	border-bottom-color: rgba(0, 0, 0, .8);
