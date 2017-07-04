@@ -157,15 +157,29 @@ type Tile = {
 	unitCount: number,
 }
 
+type Move = {
+	unitCount: number,
+	from: {
+		x: number,
+		y: number,
+	},
+	to: {
+		x: number,
+		y: number,
+	},
+}
+
 type Player = {
 	// You shouldn't use player internals. Just check on `tile.player === this`
 }
-
 
 type TileType = 'NEUTRAL' | 'MINOR_SPAWN' | 'MAJOR_SPAWN' | 'CAPTURE_POINT'
 // Access tile types like this:
 import { tileTypes } from '../constants';
 tileTypes.NEUTRAL // 'NEUTRAL'
+
+// And the proper signature of your AI's play method:
+play(board: Board): Array<Move>
 
 ```
 
