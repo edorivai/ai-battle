@@ -83,7 +83,7 @@ export default class ViennaPlayer {
 }
 ```
 
-4. Add your player to the game. Open '/src/palyers/players.js', and... well, I'll let you figure this step out by yourself.
+4. Add your player to the game. Open `/src/players/players.js`, and... well, I'll let you figure this step out by yourself.
 5. If you've managed to properly add your AI to the game, it should now show up in the dropdowns in the game. Check it out by running `npm start`.
 
 ## The AI skeleton
@@ -191,6 +191,10 @@ if (tileIsOccupiedByMe === false) {
 }
 ```
 
+## Utility functions
+
+TODO
+
 ## FAQ & troubleshooting
 
 ### But I can cheat!?!?
@@ -201,9 +205,9 @@ Yes. Yes you can cheat. You could mutate the board state to trick the game into 
 
 The game will try to catch illegal moves as best it can, but it could happen that it crashes in some edge case. Please file an issue if you think the game crashed when it shouldn't have.
 
-### I think the rules/mechanics are bad/weird/subobtimal
+### I think the rules/mechanics are bad/weird/suboptimal
 
-This game was created over a weekend, and we aim to balance and improve it over time. Suggestions to rules and mechanichs are welcome. Please file an issue.
+This game was created over a weekend, and we aim to balance and improve it over time. Suggestions to rules and mechanics are welcome. Please file an issue.
 
 ### The human interface sucks
 
