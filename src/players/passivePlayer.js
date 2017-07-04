@@ -5,10 +5,6 @@ export default class PassivePlayer {
 		this.name = PassivePlayer.getName();
 		this.color = color;
 	}
-
-	adjustProduction(board) {
-		return [];
-	}
 	
 	play() {
 		return [];

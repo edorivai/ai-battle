@@ -11,10 +11,6 @@ export default class EdoPlayer {
 		this.name = EdoPlayer.getName();
 		this.color = color;
 	}
-
-	adjustProduction() {
-		return [];
-	}
 	
 	getObjectives(board) {
 		const enemyCapturePointCount = getTilesByType(tileTypes.CAPTURE_POINT)
@@ -25,12 +21,8 @@ export default class EdoPlayer {
 			.filter(tile => tile.player !== this);
 		
 		return [
-			{
-				type: 'grow', score: unownedSpawnTiles.length === 0 ? 0 : 100
-			},
-			{
-				type: 'defend', score: enemyCapturePointCount > 2 ? 1000 : 10
-			},
+			{ type: 'grow', score: unownedSpawnTiles.length === 0 ? 0 : 100	},
+			{	type: 'defend', score: enemyCapturePointCount > 2 ? 1000 : 10	},
 		];
 	};
 	

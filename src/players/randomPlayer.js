@@ -11,13 +11,6 @@ export default class RandomPlayer {
 		this.name = RandomPlayer.getName();
 		this.color = color;
 	}
-
-	adjustProduction(board) {
-		return [];
-		// return getSpawnsForPlayer(board, this)
-		// 	.filter(tile => tile.unitCount === 0) // We're only allowed to switch unit type if the tile is empty
-		// 	.map(tile => ({ ...tile, unitProductionType: sample(Object.values(unitTypes)) }));
-	}
 	
 	play(board) {
 		const source = sample(getAllTilesWithArmyForPlayer(board, this));

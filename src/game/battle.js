@@ -26,7 +26,7 @@ const efficiencyMap = {
 	},
 };
 /**
- * 
+ * Resolves a battle according to Lanchaster's square law.
  * @param attacker {{ unitType, unitCount }}
  * @param defender {{ unitType, unitCount }}
  */

@@ -14,10 +14,6 @@ export default class HumanPlayer {
 		this.name = HumanPlayer.getName();
 		this.color = color;
 	}
-
-	adjustProduction(board) {
-		return [];
-	}
 	
 	play() {
 		store.dispatch(startPlayerMove(this));

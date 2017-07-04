@@ -12,30 +12,6 @@ export default class ThiefPlayer {
 		this.color = color;
 	}
 
-	adjustProduction(board) {
-		return [];
-		// Count our own units
-		// const unitCounts = getAllTilesWithArmyForPlayer(board, this).reduce(
-		// 	(counts, tile) => {
-		// 		counts[tile.unitType] += tile.unitCount;
-		// 		return counts;
-		// 	},
-		// 	{
-		// 		[unitTypes.TANK]: 0,
-		// 		[unitTypes.ROCKET]: 0,
-		// 		[unitTypes.RIFLE]: 0,
-		// 	}
-		// );
-		//
-		// const lowestUnitCountType = Object.entries(unitCounts).reduce((lowest, candidate) =>
-		// 	lowest[1] <= candidate[1] ? lowest : candidate
-		// )[0];
-		//
-		// return getSpawnsForPlayer(board, this)
-		// 	.filter(tile => console.log('filtering', Math.random(), tile) || tile.unitCount === 0) // We're only allowed to switch unit type if the tile is empty
-		// 	.map(tile => ({ ...tile, unitProductionType: lowestUnitCountType }));
-	}
-
 	play(board) {
 		const allTiles = getAllTilesWithArmyForPlayer(board, this);
 

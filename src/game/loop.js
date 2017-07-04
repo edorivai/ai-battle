@@ -7,15 +7,16 @@ export default function startLoop(getState, players, dispatch) {
 	let currentPlayerIndex = 0;
 	async function run() {
 		if (stopped) return;
-		const fps = 1 + getState().speed;
+		const fps = 1 + getState().speed / 3;
 		
 		const player = players[currentPlayerIndex];
-		const productionAdjustments = player.adjustProduction(getState().board); 
-
+		// const productionAdjustments = player.adjustProduction(getState().board); 
+		const productionAdjustments = [];
+		
 		// Spawn units
 		dispatch(spawn(player, productionAdjustments));
 		
-		await new Promise(res => setTimeout(res, 1000 / fps));
+		// await new Promise(res => setTimeout(res, 1000 / fps));
 
 		const board = getState().board;
 		const moves = await player.play(board);
