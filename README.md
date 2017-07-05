@@ -2,6 +2,34 @@
 
 The purpose of this project is to practice coding, while having fun at the same time!
 
+
+<!-- toc orderedList:0 depthFrom:1 depthTo:6 -->
+
+* [AI Battle](#ai-battle)
+    * [Used technologies](#used-technologies)
+  * [Setup](#setup)
+  * [Rules and objective](#rules-and-objective)
+    * [Explanations](#explanations)
+  * [Writing an AI](#writing-an-ai)
+    * [Setting up](#setting-up)
+    * [The AI skeleton](#the-ai-skeleton)
+      * [Name and color boilerplate](#name-and-color-boilerplate)
+      * [The `play()` method](#the-play-method)
+    * [Game's data structures](#games-data-structures)
+      * [Board](#board)
+      * [Tile](#tile)
+  * [Utility functions](#utility-functions)
+  * [FAQ & troubleshooting](#faq-troubleshooting)
+    * [But I can cheat!?!?](#but-i-can-cheat)
+    * [The game crashed](#the-game-crashed)
+    * [I think the rules/mechanics are bad/weird/suboptimal](#i-think-the-rulesmechanics-are-badweirdsuboptimal)
+    * [The human interface sucks](#the-human-interface-sucks)
+  * [Contributing](#contributing)
+
+<!-- tocstop -->
+
+
+
 ### Used technologies
 
 ...that you'll touch:
@@ -35,6 +63,31 @@ The game is a turn based game, a bit like the board game [Risk](https://en.wikip
 Or more formally. You win as soon as you fulfill one of these conditions:
 - Capture all (4) capture points (the squares)
 - Eliminate all enemy units
+
+### Explanations
+
+
+<img src="./public/images/board.png" alt="emptyboard" width="200"/>
+<img src="./public/images/winBycapture.png" alt="winBycapture" width="200"/>
+
+In this Example the red player won by capturing the obejctives.
+
+
+<img src="./public/images/triangle.png" alt="triangle" width="50" align="left"/>  The triangle stands for a minor spawn point (produces units with simple power). From there you can create new units.
+
+
+<img src="./public/images/star.png" alt="star" width="50" align="left"/>  The star stands for a major spawn point (produces units with double power). From there you can create new units.
+
+
+<img src="./public/images/square.png" alt="square" width="50" align="left"/>  The square stands for an objective to cover.
+
+
+<img src="./public/images/simplePower.png" alt="simplePower" width="50" align="left"/>  This unit has a power of 1.
+
+
+<img src="./public/images/morePower.png" alt="morePower" width="50" align="left"/>  This unit has a power of 24.
+
+
 
 ## Writing an AI
 
@@ -86,7 +139,7 @@ export default class ViennaPlayer {
 4. Add your player to the game. Open `/src/players/players.js`, and... well, I'll let you figure this step out by yourself.
 5. If you've managed to properly add your AI to the game, it should now show up in the dropdowns in the game. Check it out by running `npm start`.
 
-## The AI skeleton
+### The AI skeleton
 
 Those know a bit of modern javascript might already have recognized that a player is defined as a class. Every AI class should
 have the same API. Now the skeleton breaks up into two pieces:
@@ -94,7 +147,7 @@ have the same API. Now the skeleton breaks up into two pieces:
 1. Boilerplate for the name and color
 2. The `play()` method
 
-### Name and color boilerplate
+#### Name and color boilerplate
 The following part of your AI basically defines your AI's name, and it stores the color it will be given when the game starts.
 
 Don't think too much about it, this is just needed to make the game run.
@@ -108,7 +161,7 @@ Don't think too much about it, this is just needed to make the game run.
 	}
 ```
 
-### The `play()` method
+#### The `play()` method
 
 Now this is the core of your AI. The game will call the `play()` method on your AI when it's your turn to make a move. It is now up to you to respond to the game with a list of moves that you'll make this turn. To know what move you make, you'll need to know the current state of the board. The game passes this as a function parameter, so your play method actually looks like this:
 
