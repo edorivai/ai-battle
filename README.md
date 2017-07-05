@@ -3,31 +3,25 @@
 The purpose of this project is to practice coding, while having fun at the same time!
 
 
-<!-- toc orderedList:0 depthFrom:1 depthTo:6 -->
-
-* [AI Battle](#ai-battle)
-    * [Used technologies](#used-technologies)
-  * [Setup](#setup)
-  * [Rules and objective](#rules-and-objective)
-    * [Explanations](#explanations)
-  * [Writing an AI](#writing-an-ai)
-    * [Setting up](#setting-up)
-    * [The AI skeleton](#the-ai-skeleton)
-      * [Name and color boilerplate](#name-and-color-boilerplate)
-      * [The `play()` method](#the-play-method)
-    * [Game's data structures](#games-data-structures)
-      * [Board](#board)
-      * [Tile](#tile)
-  * [Utility functions](#utility-functions)
-  * [FAQ & troubleshooting](#faq-troubleshooting)
-    * [But I can cheat!?!?](#but-i-can-cheat)
-    * [The game crashed](#the-game-crashed)
-    * [I think the rules/mechanics are bad/weird/suboptimal](#i-think-the-rulesmechanics-are-badweirdsuboptimal)
-    * [The human interface sucks](#the-human-interface-sucks)
-  * [Contributing](#contributing)
-
-<!-- tocstop -->
-
+* [Used technologies](#used-technologies)
+* [Setup](#setup)
+* [Rules and objective](#rules-and-objective)
+	* [Explanations](#explanations)
+* [Writing an AI](#writing-an-ai)
+	* [Setting up](#setting-up)
+	* [The AI skeleton](#the-ai-skeleton)
+		* [Name and color boilerplate](#name-and-color-boilerplate)
+		* [The `play()` method](#the-play-method)
+	* [Game's data structures](#games-data-structures)
+		* [Board](#board)
+		* [Tile](#tile)
+* [Utility functions](#utility-functions)
+* [FAQ & troubleshooting](#faq-troubleshooting)
+	* [But I can cheat!?!?](#but-i-can-cheat)
+	* [The game crashed](#the-game-crashed)
+	* [I think the rules/mechanics are bad/weird/suboptimal](#i-think-the-rulesmechanics-are-badweirdsuboptimal)
+	* [The human interface sucks](#the-human-interface-sucks)
+* [Contributing](#contributing)
 
 
 ### Used technologies
@@ -68,25 +62,18 @@ Or more formally. You win as soon as you fulfill one of these conditions:
 
 
 <img src="./public/images/board.png" alt="emptyboard" width="200"/>
-<img src="./public/images/winBycapture.png" alt="winBycapture" width="200"/>
+
+<img src="./public/images/winByCapture.png" alt="winByCapture" width="200"/>
 
 In this Example the red player won by capturing the obejctives.
 
-
-<img src="./public/images/triangle.png" alt="triangle" width="50" align="left"/>  The triangle stands for a minor spawn point (produces units with simple power). From there you can create new units.
-
-
-<img src="./public/images/star.png" alt="star" width="50" align="left"/>  The star stands for a major spawn point (produces units with double power). From there you can create new units.
-
-
-<img src="./public/images/square.png" alt="square" width="50" align="left"/>  The square stands for an objective to cover.
-
-
-<img src="./public/images/simplePower.png" alt="simplePower" width="50" align="left"/>  This unit has a power of 1.
-
-
-<img src="./public/images/morePower.png" alt="morePower" width="50" align="left"/>  This unit has a power of 24.
-
+| Key | Functionality          |
+|---------------------------|----------------------------------|
+| <img src="./public/images/triangle.png" alt="triangle" width="50" align="left"/> | The triangle stands for a minor spawn point (produces units with simple power). From there you can create new units. |
+| <img src="./public/images/star.png" alt="star" width="50" align="left"/>  | The star stands for a major spawn point (produces units with double power). From there you can create new units. | 
+<img src="./public/images/square.png" alt="square" width="50" align="left"/> | The square stands for an objective to cover. |
+<img src="./public/images/simplePower.png" alt="simplePower" width="50" align="left"/> | This unit has a power of 1. | 
+<img src="./public/images/morePower.png" alt="morePower" width="50" align="left"/> | This unit has a power of 24. |
 
 
 ## Writing an AI
