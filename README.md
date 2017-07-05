@@ -60,10 +60,9 @@ Or more formally. You win as soon as you fulfill one of these conditions:
 
 ### Explanations
 
-
-<img src="./public/images/board.png" alt="emptyboard" width="200"/>
-
-<img src="./public/images/winByCapture.png" alt="winByCapture" width="200"/>
+| Empty | Player 2 won          |
+|---------------------------|----------------------------------|
+<img src="./public/images/board.png" alt="emptyboard" width="200"/> | <img src="./public/images/winByCapture.png" alt="winByCapture" width="200"/> |
 
 In this Example the red player won by capturing the obejctives.
 
