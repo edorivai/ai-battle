@@ -68,11 +68,11 @@ In this Example the red player won by capturing the obejctives.
 
 | Key | Functionality          |
 |---------------------------|----------------------------------|
-| <img src="./public/images/triangle.png" alt="triangle" width="50" align="left"/> | The triangle stands for a minor spawn point (produces units with simple power). From there you can create new units. |
-| <img src="./public/images/star.png" alt="star" width="50" align="left"/>  | The star stands for a major spawn point (produces units with double power). From there you can create new units. | 
+| <img src="./public/images/triangle.png" alt="triangle" width="50" align="left"/> | The triangle stands for a minor spawn point (spawns 1 unit at a time). From there you can create new units. |
+| <img src="./public/images/star.png" alt="star" width="50" align="left"/>  | The star stands for a major spawn point (spawns 2 units at a time). From there you can create new units. | 
 <img src="./public/images/square.png" alt="square" width="50" align="left"/> | The square stands for an objective to cover. |
-<img src="./public/images/simplePower.png" alt="simplePower" width="50" align="left"/> | This unit has a power of 1. | 
-<img src="./public/images/morePower.png" alt="morePower" width="50" align="left"/> | This unit has a power of 24. |
+<img src="./public/images/simplePower.png" alt="simplePower" width="50" align="left"/> | This army has 1 unit. | 
+<img src="./public/images/morePower.png" alt="morePower" width="50" align="left"/> | This army has 24 units. |
 
 
 ## Writing an AI
