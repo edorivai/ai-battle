@@ -40,7 +40,7 @@ The purpose of this project is to practice coding, while having fun at the same 
 
 ## Setup
 
-1. Fork repo
+1. Fork/clone repo
 2. Make sure you've installed node 6+
 3. Install dependencies: `npm install`
 4. Run: `npm start`
