@@ -4,6 +4,7 @@ import TurtlePlayer from './turtlePlayer';
 import ThiefPlayer from './thiefPlayer';
 import EdoPlayer from './edoPlayer';
 import CalmAndNicePersonPlayer from './calmandnicepersonPlayer';
+import WiaschdlPlayer from './wiaschdl.js';
 
 export default [
 	RandomPlayer,
@@ -11,5 +12,6 @@ export default [
 	TurtlePlayer,
 	ThiefPlayer,
 	EdoPlayer,
-	CalmAndNicePersonPlayer
+	CalmAndNicePersonPlayer,
+	WiaschdlPlayer
 ];
