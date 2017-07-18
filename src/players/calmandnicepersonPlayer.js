@@ -23,8 +23,8 @@ export default class CalmAndNicePersonPlayer {
         const capturePointsClaimedByEnemy = getTilesByType(board, tileTypes.CAPTURE_POINT).filter(tile => tile.player && tile.player !== this).length;
 
         // Here we try to find out which move is the most imporant right now.
-        // The highest priority has the capture move, which takes capture points as fast as
-        // it can, if the enemy has already captured at least 2 of them.
+        // The capture move, which takes capture points as fast as 
+        // it can, has the highest priority if the enemy has already captured at least 2 of them.
         // The second highest priority is capturing major spawns if we do not own all of them yet.
         // If these two goals are fulfilled, the AI tries to claim more capture points (lowest
         // priority of all objectives).
